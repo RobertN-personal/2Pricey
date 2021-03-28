@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src='display.js'></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    
+    <title>2Pricey</title>
+</head>
+<body>
+    <header id="header">
+        Welcome to 2Pricey!
+    </header>
+    <section id="select-option" class="container">
+        <h1 id="title">Check the upgrade configuration in CPanel and select the appropriate upgrade cost method. The shopper will pay:</h1>
+        <ol id="options" name="options">
+            <!-- Shopper pays full product price -->
+            <li>
+                <input type="radio" class="radio-btn" name="will-pay" value="full">
+                <label for="full" class="radio-label">The full upgrade product price </label><br><br>
+                    <div class="check"></div>
+                    <div id="full" style="display:none;">
+                        <p>The shopper will pay the full price of the upgraded product. What do you want to calculate?</p>
+                    </div>
+            </li>
+            <!-- Shopper pays the difference between the original subscription and the upgraded product -->
+            <li>
+                <input type="radio" class="radio-btn" name="will-pay" value="difference">
+                <label for="difference" class="radio-label">The difference between the original subscription and the upgraded product</label><br><br>
+                <div class="check"><div class="inside"></div></div>
+                <div id="difference" style="display:none;">
+                    <p><strong>The formula is: <br><br>  Product 2 price - Product 1 price</strong></p>
+                <table>
+                    <tr><td><label>Product 1 price: </label></td><td><input type="text" id="P2-2" class="text" size=5> </td></tr>
+                    <tr><td><label>Product 2 price: </label></td><td><input type="text" id="P2-21" class="text" size=5> </td> </tr>
+                    <tr><td></td><td><input type=button class="button" value="Calculate price" onclick="upgrade1()"></td> </tr>
+                    <tr><td><label><strong>Upgrade cost: </strong></label></td><td><input type="text" id="res" class="res" size=10 readonly> </td></tr>
+                </table>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <!-- Shopper pays a prorated upgrade price calculated using the most recent costs incurred by the customer -->
+                <input id="prorated-recent-costs" type="radio" value="prorated-recent-costs" onselect="" class="radio-btn" name="will-pay">
+                <label for="prorated-recent-costs" class="radio-label">A prorated upgrade price calculated using the most recent costs incurred by the customer</label><br><br>
+                <div class="check"><div class="inside"></div></div>
+            </li>
+                <div id="recent-costs" style="display:none;">
+                    <div id="prorated-1a"><input type="radio" class="radio-btn" name="prorated-costs" value="prorated-costs-new">
+                    <label for="prorated-costs-new">- New subscription or prolong the subscription<br></label> </div>
+                    <div id="prorated-costs-new" style="display:none;">
+                        <p><strong>The formula is: <br><br>  Product 2 price - Reference costs for Product 1 * Lifetime left from Product 1 subscription/ Total lifetime of Product 1 subscription</strong></p>
+                    <table>
+                        <tr><td><label>Product 2 price: </label></td><td><input type="text" id="P2-21a" class="text" size=5></td></tr>
+                        <tr><td><label>Reference cost for product 1:</label></td><td><input type="text" id="P1-Ra" class="text" size=5></td></tr>
+                        <tr><td><label>Lifetime left from Product 1:</label></td><td><input type="text" id="LF-1a" class="text" size=5>(check the legend for a calculator)</td></tr>
+                        <tr><td><label>Total lifetime of product 1:</label></td><td><input type="text" id="TL-1a" class="text" size=5></td></tr>
+                        <tr><td></td><td><input type=button class="button" value="Calculate price" onclick="upgradeProratedCostsNew()"> </td><td></td></tr>
+                        <tr><td><label>Replaced terms:</label></td><td><input type="text" id="R-1" size=60 readonly class="replaced"> </td></tr>
+                        <tr><td><label><strong>Result:</strong></label></td><td><input type="text" id="res2" class="res" size=10 readonly>   </td></tr>
+                    </table>
+                    </div>
+                    <div id="prorated-1b"><input type="radio" class="radio-btn" name="prorated-costs" value="prorated-costs-not">
+                    <label for="prorated-costs-not">- The upgrade does not affect the duration</label></div><br>
+                    <div id="prorated-costs-not" style="display:none;">
+                        <p><strong>The formula is:  <br><br> Product 2 price - Reference costs for Product 1 * Lifetime left from the Product 1 subscription/ Total lifetime of Product 1 subscription - Product 2 price * (Total lifetime of Product 2 subscription - Lifetime left from the Product 1 subscription) / Total lifetime of Product 2 subscription</strong></p>
+                    <table>
+                    <tr><td><label for="">Product 2 price: </label><td><input type="text" id="P2b" class="text" size=5></td></tr>
+                    <tr><td><label for="">Reference costs for Product 1: </label></td><td><input type="text" id="P1-Rb" class="text" size=5></td></tr>
+                    <tr><td><label for="">Lifetime left from Product 1: </td><td><input type="text" id="LF-1b" class="text" size=5>(check the legend for a calculator)</td></tr>
+                    <tr><td><label for="">Total lifetime of Product 1: </td><td><input type="text" id="TL-1b" class="text" size=5></td></tr>
+                    <tr><td><label for="">Total lifetime of Product 2: </td><td><input type="text" id="TL-2b" class="text" size=5></td></tr>
+                    <tr><td></td><td><input type=button class="button" value="Calculate price" onclick="upgradeProratedCostsNot()"> </td></tr>
+                    <tr><td><label for="">Replaced terms:               </label></td><td><input type="text" id="R-2" size=60 readonly class="replaced"> </td></tr>
+                    <tr><td><label for=""><strong>Result:                     </strong>  </label></td><td><input type="text" id="res3" class="res" size=10 readonly>   </td></tr>
+                    <tr></tr>
+                    </table>
+                    </div>
+                </div>
+            <li>
+                <!-- Shopper pays a prorated upgrade price calculated using the product's pricing setup at the time of the order -->
+                <input type="radio" id="prorated-initial-pricing"  value="prorated-initial-pricing" class="radio-btn" for="options" name="will-pay">
+                <label for="prorated-initial-pricing" class="radio-label">A prorated upgrade price calculated using the product's pricing setup at the time of the order</label><br><br>
+                <div class="check"><div class="inside"></div></div>
+            </li>
+                <div id="initial-costs" style="display:none;">
+                    <div id="prorated-2a"><input type="radio" class="radio-btn" name="prorated-initial" value="prorated-initial-new">
+                    <label for="prorated-initial-new">- New subscription or prolong the subscription</label> <br></div>
+                    <div id="prorated-initial-new" style="display:none;">
+                        <p><strong>The formula is:<br><br>  Product 2 price - Product 1 price * Lifetime left from the Product 1 subscription / Total Lifetime of Product 1 subscription</strong></p>
+                    <table>
+                        <tr><td><label>Product 2 price:</label></td><td><input type="text" id="P2c" class="text" size=5></td></tr>
+                        <tr><td><label>Product 1 price:</label></td><td><input type="text" id="P1c" class="text" size=5></td></tr>
+                        <tr><td><label>Lifetime left from Product 1:</label></td><td><input type="text" id="LF-1c" class="text" size=5>(check the legend for a calculator)</td></tr>
+                        <tr><td><label>Total lifetime of Product 1:</label></td><td><input type="text" id="TL-1c" class="text" size=5></td></tr>
+                        <tr><td></td><td><input type=button class="button" value="Calculate price" onclick="upgradeProratedInitialNew()"> </td></tr>
+                        <tr><td><label>Replaced terms:</label></td><td><input type="text" id="R-3" size=60 readonly class="replaced"> </td></tr>
+                        <tr><td><label><strong>Result:</strong></label></td><td><input type="text" id="res4" class="res" size=10 readonly>   </td></tr>
+                    </table>
+                    </div>
+                    <div id="prorated-2b"><input type="radio" class="radio-btn" name="prorated-initial" value="prorated-initial-not">
+                    <label for="prorated-initial-not">- The upgrade does not affect the duration</label></div>
+                    <div id="prorated-initial-not" style="display:none;">
+                        <p><strong>The formula is:  <br><br> Product 2 price - Product 1 price * Lifetime left from the Product 1 subscription/ Total Lifetime of Product 1 subscription - Product 2 price * (Total lifetime of Product 2 subscription - Lifetime left from the Product 1 subscription) / Total lifetime of Product 2 subscription </strong></p>
+                    <table>
+                        <tr><td><label>Product 2 price:</label></td><td><input type="text" id="P2d" class="text" size=5></td></tr>
+                        <tr><td><label>Product 1 price:</label></td><td><input type="text" id="P1d" class="text" size=5></td></tr>
+                        <tr><td><label>Lifetime left from Product 1:</label></td><td><input type="text" id="LF-1d" class="text" size=5>(check the legend for a calculator)</td></tr>
+                        <tr><td><label>Total lifetime of Product 1:</label></td><td><input type="text" id="TL-1d" class="text" size=5></td></tr>
+                        <tr><td><label>Total lifetime of product 2:</label></td><td><input type="text" id="TL-2d" class="text" size=5></td></tr>
+                        <tr><td></td><td><input type=button class="button" value="Calculate price" onclick="upgradeProratedInitialNot()"> </td></tr>
+                        <tr><td><label>Replaced terms:</label></td><td><input type="text" id="R-4" size=60 readonly class="replaced"> </td></tr>
+                        <tr><td><label><strong>Result:</strong></label></td><td><input type="text" id="res5" class="res" size=10 readonly>   </td></tr>
+                    </table>
+                    </div>
+                </div>
+
+        </ol>
+    </section>
+    <section id="legend">
+        <h1>Legend/useful info</h1>
+        <table>
+            <tr><td class="leg">Product 1 price: </td><td class="leg">The price of the initial product based on which the upgrade is done, as shown in GAP/CPanel without any discounts applied.</td></tr>
+            <tr><td class="leg">Product 2 price: </td><td class="leg">The price of the upgraded product, as shown in GAP/CPanel without any discounts applied.</td></tr>
+            <tr><td class="leg">Reference costs for product 1: </td><td class="leg">The price that the shopper paid for their initial order, so after all discounts were applied.</td></tr>
+            <tr><td class="leg">Total lifetime of Product 1: </td><td class="leg">The duration of 1 billing cycle, as configured by the merchant in CPanel, for the initial product.</td></tr>
+            <tr><td class="leg">Total lifetime of Product 2: </td><td class="leg">The duration of 1 billing cycle, as configured by the merchant in CPanel, for the upgraded product.</td></tr>
+            <tr><td class="leg">Lifetime left from Product 1: </td><td class="leg">The period that the shopper has paid for that is still available (total lifetime - the period the product was used). It is currently unclear if this is took into account by the second, minute, hour, or day. The below calculator will give you the days.<br><br>
+            <label for="start-date">Purchase date: </label><input type="date" id="start-date">
+            <label for="end-date">Upgrade date : </label><input type="date" id="end-date">
+            <label for="total-lifetime">Total lifetime (in days, e.g. 365): </label><input type="text" id="total-lifetime"><br><input type="button" value="Get lifetime" onclick="getLifetime()" class="button">&nbsp;<input type="text" id="remaining-lifetime"><br><br></td></tr>
+            <tr><td class="leg">URL to doc: </td><td class="leg"><a href="https://knowledgecenter.2checkout.com/Documentation/Subscription-Billing/02Subscription-Packaging-and-Pricing/Set_up_subscription_upgrades" target="_blank">https://knowledgecenter.2checkout.com/Documentation/Subscription-Billing/02Subscription-Packaging-and-Pricing/Set_up_subscription_upgrades</a></td></tr>
+        </table>
+    </section>
+    
+    
+</body>
+</html>
