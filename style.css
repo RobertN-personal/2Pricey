@@ -33,13 +33,13 @@ body {
   position: bottom;
   padding: 20px 30px;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.164);
   box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.2); 
   text-align: left;
   font-size: 1.1em;
   font-family: 'Cormorant', serif;
   color: #fff;
-  text-shadow: 2px 2px #000;
+  /* text-shadow: 2px 2px #000; */
 
 }
 a {
@@ -60,7 +60,7 @@ p, li, label {
   font-size: 1.1em;
   font-family: 'Cormorant', serif;
   color: #fff;
-  text-shadow: 2px 2px #000;
+  /* text-shadow: 2px 2px #000; */
 }
 table {
   display: grid;

@@ -51,8 +51,8 @@
                 <div class="check"><div class="inside"></div></div>
             </li>
                 <div id="recent-costs" style="display:none;">
-                    <div id="prorated-1a"><input type="radio" class="radio-btn" name="prorated-costs" value="prorated-costs-new">
-                    <label for="prorated-costs-new">- New subscription or prolong the subscription<br></label> </div>
+                    <div id="prorated-1a"><input type="radio" class="radio-btn" name="prorated-costs" value="prorated-costs-new" id="prorated-costs-new2">
+                    <label for="prorated-costs-new2">- New subscription or prolong the subscription<br></label> </div>
                     <div id="prorated-costs-new" style="display:none;">
                         <p><strong>The formula is: <br><br>  Product 2 price - Reference costs for Product 1 * Lifetime left from Product 1 subscription/ Total lifetime of Product 1 subscription</strong></p>
                     <table>
@@ -65,8 +65,8 @@
                         <tr><td><label><strong>Result:</strong></label></td><td><input type="text" id="res2" class="res" size=10 readonly>   </td></tr>
                     </table>
                     </div>
-                    <div id="prorated-1b"><input type="radio" class="radio-btn" name="prorated-costs" value="prorated-costs-not">
-                    <label for="prorated-costs-not">- The upgrade does not affect the duration</label></div><br>
+                    <div id="prorated-1b"><input type="radio" class="radio-btn" name="prorated-costs" id="prorated-costs-not2" value="prorated-costs-not">
+                    <label for="prorated-costs-not2">- The upgrade does not affect the duration</label></div><br>
                     <div id="prorated-costs-not" style="display:none;">
                         <p><strong>The formula is:  <br><br> Product 2 price - Reference costs for Product 1 * Lifetime left from the Product 1 subscription/ Total lifetime of Product 1 subscription - Product 2 price * (Total lifetime of Product 2 subscription - Lifetime left from the Product 1 subscription) / Total lifetime of Product 2 subscription</strong></p>
                     <table>
@@ -89,8 +89,8 @@
                 <div class="check"><div class="inside"></div></div>
             </li>
                 <div id="initial-costs" style="display:none;">
-                    <div id="prorated-2a"><input type="radio" class="radio-btn" name="prorated-initial" value="prorated-initial-new">
-                    <label for="prorated-initial-new">- New subscription or prolong the subscription</label> <br></div>
+                    <div id="prorated-2a"><input type="radio" class="radio-btn" name="prorated-initial" id="prorated-initial-new2" value="prorated-initial-new">
+                    <label for="prorated-initial-new2">- New subscription or prolong the subscription</label> <br></div>
                     <div id="prorated-initial-new" style="display:none;">
                         <p><strong>The formula is:<br><br>  Product 2 price - Product 1 price * Lifetime left from the Product 1 subscription / Total Lifetime of Product 1 subscription</strong></p>
                     <table>
@@ -103,8 +103,8 @@
                         <tr><td><label><strong>Result:</strong></label></td><td><input type="text" id="res4" class="res" size=10 readonly>   </td></tr>
                     </table>
                     </div>
-                    <div id="prorated-2b"><input type="radio" class="radio-btn" name="prorated-initial" value="prorated-initial-not">
-                    <label for="prorated-initial-not">- The upgrade does not affect the duration</label></div>
+                    <div id="prorated-2b"><input type="radio" class="radio-btn" name="prorated-initial" value="prorated-initial-not" id="prorated-initial-not2">
+                    <label for="prorated-initial-not2">- The upgrade does not affect the duration</label></div>
                     <div id="prorated-initial-not" style="display:none;">
                         <p><strong>The formula is:  <br><br> Product 2 price - Product 1 price * Lifetime left from the Product 1 subscription/ Total Lifetime of Product 1 subscription - Product 2 price * (Total lifetime of Product 2 subscription - Lifetime left from the Product 1 subscription) / Total lifetime of Product 2 subscription </strong></p>
                     <table>
